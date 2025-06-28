@@ -12,6 +12,7 @@ export default function Home() {
   const [minValue, setMinValue] = useState(0)
   const [maxValue, setMaxValue] = useState(100)
   const [stepValue, setStepValue] = useState(5)
+  const [color, setColor] = useState('#2196f3')
 
   function addTrackerToList() {
     const newTracker = {
@@ -20,7 +21,8 @@ export default function Home() {
       initialValue,
       minValue,
       maxValue,
-      stepValue
+      stepValue,
+      color,
     }
     setTrackerList([...trackerList, newTracker])
   }
@@ -45,6 +47,9 @@ export default function Home() {
         </Grid>
         <Grid size={6}>
           <TextField fullWidth variant="outlined" type="number" id="stepValue" label="Step value" value={stepValue} onChange={(event) => setStepValue(event.target.value)} />
+        </Grid>
+        <Grid size={6}>
+          <TextField fullWidth variant="outlined" type="color" id="color" label="Color" value={color} onChange={(event) => setColor(event.target.value)} />
         </Grid>
         <Grid size={12} justifyItems={'end'}>
           <Button size='large' color='success' variant="contained" onClick={() => addTrackerToList()}>

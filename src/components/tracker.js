@@ -21,6 +21,7 @@ export default function Tracker({trackerProps}) {
         aria-label={trackerProps.title}
         defaultValue={trackerProps.initialValue}
         value={value}
+        style={{color: trackerProps.color}}
         getAriaValueText={valuetext}
         valueLabelDisplay="auto"
         valueLabelFormat={valuetext}
