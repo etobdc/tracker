@@ -27,6 +27,11 @@ export default function Home() {
     setTrackerList([...trackerList, newTracker])
   }
 
+  const removeTracker = (index) => {
+    const temp = trackerList.filter((tracker, indexTracker) => indexTracker !== index);
+    setTrackerList(temp)
+  }
+
   return (
     <Container maxWidth="sm" className='mt-5'>
       <Grid container spacing={1}>
@@ -58,11 +63,10 @@ export default function Home() {
         </Grid>
         <Grid size={12} className="mt-5">
           {trackerList.map((item, index) => (
-            <Tracker key={index} trackerProps={item} />
+            <Tracker key={index} trackerProps={item} remove={() => removeTracker(index)} />
           ))}
         </Grid>
       </Grid>
-     
     </Container>
   );
 }

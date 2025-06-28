@@ -1,8 +1,10 @@
 'use client'
-import {Grid, Paper, Slider} from '@mui/material';
+import {Grid, IconButton, Paper, Slider} from '@mui/material';
 import { useState } from 'react';
+import CloseIcon from '@mui/icons-material/Close';
 
-export default function Tracker({trackerProps}) {
+
+export default function Tracker({trackerProps, remove}) {
   const [value, setValue] = useState(trackerProps.initialValue)
   
   function valuetext(value) {
@@ -14,13 +16,18 @@ export default function Tracker({trackerProps}) {
   };
 
   return (
-    <Paper className='mb-5 px-5 py-5' elevation={5}>
+    <Paper className='mb-5 px-5 py-5 relative' elevation={5}>
+      <div className="absolute right-1 top-1">
+        <IconButton onClick={remove} color="error" aria-label="delete tracker">
+          <CloseIcon />
+        </IconButton>
+      </div>
       <Grid container spacing={1}>
         <Grid size={6}>
-          <p className='text-center font-black'>{trackerProps.title}</p>
+          <p className='text-center text-lg font-black'>{trackerProps.title}</p>
         </Grid>
         <Grid size={6}>
-          <p className='text-center font-black'>{value} {trackerProps.measureUnit}</p>
+          <p className='text-center text-lg font-black'>{value} {trackerProps.measureUnit}</p>
         </Grid>
         <Grid size={12}>
           <Slider
