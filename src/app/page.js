@@ -13,9 +13,11 @@ export default function Home() {
   const [maxValue, setMaxValue] = useState(100)
   const [stepValue, setStepValue] = useState(5)
   const [color, setColor] = useState('#2196f3')
+  const [idTrack, setIdTrack] = useState(1)
 
   function addTrackerToList() {
     const newTracker = {
+      id: idTrack,
       title,
       measureUnit,
       initialValue,
@@ -24,12 +26,15 @@ export default function Home() {
       stepValue,
       color,
     }
+    setIdTrack(idTrack + 1)
     setTrackerList([...trackerList, newTracker])
   }
 
-  const removeTracker = (index) => {
-    const temp = trackerList.filter((tracker, indexTracker) => indexTracker !== index);
-    setTrackerList(temp)
+  const removeTracker = (id) => {
+    console.log(id, 'iddd');
+    setTrackerList((prevState) =>
+      prevState.filter((prevItem) => prevItem.id !== id)
+    );
   }
 
   return (
@@ -62,8 +67,8 @@ export default function Home() {
           </Button>
         </Grid>
         <Grid size={12} className="mt-5">
-          {trackerList.map((item, index) => (
-            <Tracker key={index} trackerProps={item} remove={() => removeTracker(index)} />
+          {trackerList.map((item) => (
+            <Tracker key={item.id} trackerProps={item} remove={() => removeTracker(item.id)} />
           ))}
         </Grid>
       </Grid>
