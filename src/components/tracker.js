@@ -4,8 +4,8 @@ import { useState } from 'react';
 import {Close, RemoveCircle, AddCircle } from '@mui/icons-material';
 
 
-export default function Tracker({trackerProps, remove}) {
-  const [value, setValue] = useState(trackerProps.initialValue)
+export default function Tracker({trackerProps, changeValue, remove}) {
+  const [value, setValue] = useState(trackerProps.value)
   const [newValue, setNewValue] = useState(trackerProps.stepValue)
   
   function valuetext(value) {
@@ -14,18 +14,23 @@ export default function Tracker({trackerProps, remove}) {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    changeValue(trackerProps.id, newValue)
   };
 
   const subtractValue = () => {
     const result = value - newValue
     setNewValue(trackerProps.stepValue)
-    setValue(result >= 0 ? result : 0)
+    const val = result >= 0 ? result : 0
+    setValue(val)
+    changeValue(trackerProps.id, val)
   };
 
   const addValue = () => {
     const result = value + newValue
     setNewValue(trackerProps.stepValue)
-    setValue(result <= trackerProps.maxValue ? result : trackerProps.maxValue)
+    const val = result <= trackerProps.maxValue ? result : trackerProps.maxValue
+    setValue(val)
+    changeValue(trackerProps.id, val)
   };
 
   return (
@@ -66,7 +71,7 @@ export default function Tracker({trackerProps, remove}) {
         <Grid size={12} className="px-3 py-2">
           <Slider
             aria-label={trackerProps.title}
-            defaultValue={trackerProps.initialValue}
+            defaultValue={trackerProps.value}
             value={value}
             style={{color: trackerProps.color}}
             getAriaValueText={valuetext}

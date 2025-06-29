@@ -5,7 +5,8 @@ import Tracker from "@/components/tracker";
 import { useState } from 'react';
 
 export default function Home() {
-  const [trackerList, setTrackerList] = useState([])
+  const oldList = window.localStorage.getItem('trackerList')
+  const [trackerList, setTrackerList] = useState(oldList ? JSON.parse(oldList) : [])
   const [title, setTitle] = useState('Vida')
   const [measureUnit, setMeasureUnit] = useState('HP')
   const [initialValue, setInitialValue] = useState(80)
@@ -21,20 +22,37 @@ export default function Home() {
       title,
       measureUnit,
       initialValue,
+      value: initialValue,
       minValue,
       maxValue,
       stepValue,
       color,
     }
     setIdTrack(idTrack + 1)
-    setTrackerList([...trackerList, newTracker])
+    const attList = [...trackerList, newTracker]
+    setTrackerList(attList)
+    saveOffline(attList)
   }
 
   const removeTracker = (id) => {
-    console.log(id, 'iddd');
-    setTrackerList((prevState) =>
-      prevState.filter((prevItem) => prevItem.id !== id)
-    );
+    const attList = trackerList.filter((prevItem) => prevItem.id !== id)
+    setTrackerList(attList);
+    saveOffline(attList)
+  }
+
+  const changeValue = (id, newValue) => {
+    let temp = [...trackerList]
+    temp.map((prevItem) => {
+      if (prevItem.id === id) {
+        prevItem.value = newValue
+      }
+    })
+    setTrackerList(temp);
+    saveOffline(temp)
+  }
+
+  const saveOffline = (list) => {
+    window.localStorage.setItem('trackerList', JSON.stringify(list))
   }
 
   return (
@@ -68,7 +86,12 @@ export default function Home() {
         </Grid>
         <Grid size={12} className="mt-5">
           {trackerList.map((item) => (
-            <Tracker key={item.id} trackerProps={item} remove={() => removeTracker(item.id)} />
+            <Tracker 
+              key={item.id}
+              trackerProps={item}
+              changeValue={changeValue}
+              remove={() => removeTracker(item.id)}
+            />
           ))}
         </Grid>
       </Grid>
