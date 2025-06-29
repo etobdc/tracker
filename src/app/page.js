@@ -2,11 +2,10 @@
 
 import {Button, Container, Grid, TextField} from '@mui/material';
 import Tracker from "@/components/tracker";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Home() {
-  const oldList = window.localStorage.getItem('trackerList')
-  const [trackerList, setTrackerList] = useState(oldList ? JSON.parse(oldList) : [])
+  const [trackerList, setTrackerList] = useState([])
   const [title, setTitle] = useState('Vida')
   const [measureUnit, setMeasureUnit] = useState('HP')
   const [initialValue, setInitialValue] = useState(80)
@@ -52,8 +51,17 @@ export default function Home() {
   }
 
   const saveOffline = (list) => {
-    window.localStorage.setItem('trackerList', JSON.stringify(list))
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem('trackerList', JSON.stringify(list))
+    }
   }
+  
+  useEffect(() => {
+    const oldList = window.localStorage.getItem('trackerList')
+    if (oldList) {
+      setTrackerList(JSON.parse(oldList))
+    }
+  }, [])
 
   return (
     <Container maxWidth="sm" className='mt-5'>
