@@ -18,7 +18,7 @@ export default function Tracker({trackerProps, changeValue, remove}) {
   };
 
   const subtractValue = () => {
-    const result = value - newValue
+    const result = Number(value) - Number(newValue)
     setNewValue(trackerProps.stepValue)
     const val = result >= 0 ? result : 0
     setValue(val)
@@ -26,7 +26,7 @@ export default function Tracker({trackerProps, changeValue, remove}) {
   };
 
   const addValue = () => {
-    const result = value + newValue
+    const result = Number(value) + Number(newValue)
     setNewValue(trackerProps.stepValue)
     const val = result <= trackerProps.maxValue ? result : trackerProps.maxValue
     setValue(val)
