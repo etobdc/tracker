@@ -161,7 +161,7 @@ export default function Home() {
             </Grid>
           )}
           <div className='fixed bottom-2 right-2'>
-            <Fab onClick={handleClickOpen} color="primary" aria-label="add" >
+            <Fab onClick={handleClickOpen} color="success" aria-label="add" >
               <AddIcon />
             </Fab>
           </div>
