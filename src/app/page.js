@@ -128,85 +128,95 @@ export default function Home() {
   }, [])
 
   return (
-    <Container maxWidth="sm" className='mt-5 relative'>
-      <Typography align='center' component="h1" variant='h4'>
-        Trackers by @etobdc
-      </Typography>
-      {loading ? (
-      <Grid container spacing={1} className="mt-5">
-        {[1, 2, 3, 4, 5].map((item) => (
-          <Skeleton key={item} className="mb-1" variant="rectangular" width={'100%'} height={118} />
-        ))}
-        </Grid>
-      ) : (
-      <Grid container spacing={1}>
-        <Grid size={12} className="mt-5">
-          {trackerList.map((item) => (
-            <Tracker 
-              key={item.id}
-              trackerProps={item}
-              changeValue={changeValue}
-              remove={() => removeTracker(item.id)}
-            />
-          ))}
-        </Grid>
-      </Grid>
-      )}
-      <div className='fixed bottom-2 right-2'>
-        <Fab onClick={handleClickOpen} color="primary" aria-label="add" >
-          <AddIcon />
-        </Fab>
-      </div>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        fullWidth
-        slots={{
-          transition: Transition,
-        }}
-      >
-        <DialogTitle>New Tracker</DialogTitle>
-        <DialogContent sx={{ paddingBottom: 1 }}>
-          <FormControlLabel
-            className='absolute top-5 right-5'
-            control={<Switch
-              size='small'
-              checked={exempleIsOn}
-              onChange={onChangeExemple}
-            />} 
-            label="Exemple"
-          />
-          <Grid container spacing={1} className="pt-1">
-            <Grid size={6}>
-              <TextField fullWidth variant="outlined" type="text" placeholder='Health' label="Tracker name" value={title}  onChange={(event) => setTitle(event.target.value)} />
+    <>
+      <Container maxWidth="sm" className='mt-12 mb-10 relative'>
+        <Typography
+        align='center'
+        component="h1"
+        variant='h4'
+        className='z-10 py-2 bg-white fixed top-0 right-0 left-0 shadow'
+        >
+          Trackers by @etobdc
+        </Typography>
+        <div>
+
+          {loading ? (
+            <Grid container spacing={1} className="mt-5">
+              {[1, 2, 3, 4, 5].map((item) => (
+                <Skeleton key={item} className="mb-1" variant="rectangular" width={'100%'} height={118} />
+              ))}
+              </Grid>
+            ) : (
+            <Grid container spacing={1}>
+              <Grid size={12} className="mt-5">
+                {trackerList.map((item) => (
+                  <Tracker 
+                    key={item.id}
+                    trackerProps={item}
+                    changeValue={changeValue}
+                    remove={() => removeTracker(item.id)}
+                  />
+                ))}
+              </Grid>
             </Grid>
-            <Grid size={6}>
-              <TextField fullWidth variant="outlined" type="text" placeholder='HP' label="Measure unit" value={measureUnit}  onChange={(event) => setMeasureUnit(event.target.value)} />
-            </Grid>
-            <Grid size={6}>
-              <TextField fullWidth variant="outlined" type="number" placeholder='0' label="Minimum value" value={minValue} onChange={(event) => setMinValue(event.target.value)} />
-            </Grid>
-            <Grid size={6}>
-              <TextField fullWidth variant="outlined" type="number" placeholder='100' label="Maximum value" value={maxValue} onChange={(event) => setMaxValue(event.target.value)} />
-            </Grid>
-            <Grid size={6}>
-              <TextField fullWidth variant="outlined" type="number" placeholder='100' label="Initial value" value={initialValue} onChange={(event) => setInitialValue(event.target.value)} />
-            </Grid>
-            <Grid size={6}>
-              <TextField fullWidth variant="outlined" type="number" placeholder='1' label="Step value" value={stepValue} onChange={(event) => setStepValue(event.target.value)} />
-            </Grid>
-            <Grid size={12}>
-              <TextField fullWidth variant="outlined" type="color" label="Color" value={color} onChange={(event) => setColor(event.target.value)} />
-            </Grid>
-          </Grid>
-          <DialogActions sx={{ paddingX: 0, paddingTop: 2, justifyContent: 'space-between' }}>
-            <Button loading={loading} disabled={loading} color='error' variant="contained" onClick={handleClose}>Cancel</Button>
-            <Button loading={loading} disabled={loading} size='medium' color='success' variant="contained" onClick={addTrackerToList}>
-              Add New Tracker
-            </Button>
-          </DialogActions>
-        </DialogContent>
-      </Dialog>
-    </Container>
+          )}
+          <div className='fixed bottom-2 right-2'>
+            <Fab onClick={handleClickOpen} color="primary" aria-label="add" >
+              <AddIcon />
+            </Fab>
+          </div>
+          <Dialog
+            open={open}
+            onClose={handleClose}
+            fullWidth
+            slots={{
+              transition: Transition,
+            }}
+          >
+            <DialogTitle>New Tracker</DialogTitle>
+            <DialogContent sx={{ paddingBottom: 1 }}>
+              <FormControlLabel
+                className='absolute top-5 right-5'
+                control={<Switch
+                  size='small'
+                  checked={exempleIsOn}
+                  onChange={onChangeExemple}
+                />} 
+                label="Exemple"
+              />
+              <Grid container spacing={1} className="pt-1">
+                <Grid size={6}>
+                  <TextField fullWidth variant="outlined" type="text" placeholder='Health' label="Tracker name" value={title}  onChange={(event) => setTitle(event.target.value)} />
+                </Grid>
+                <Grid size={6}>
+                  <TextField fullWidth variant="outlined" type="text" placeholder='HP' label="Measure unit" value={measureUnit}  onChange={(event) => setMeasureUnit(event.target.value)} />
+                </Grid>
+                <Grid size={6}>
+                  <TextField fullWidth variant="outlined" type="number" placeholder='0' label="Minimum value" value={minValue} onChange={(event) => setMinValue(event.target.value)} />
+                </Grid>
+                <Grid size={6}>
+                  <TextField fullWidth variant="outlined" type="number" placeholder='100' label="Maximum value" value={maxValue} onChange={(event) => setMaxValue(event.target.value)} />
+                </Grid>
+                <Grid size={6}>
+                  <TextField fullWidth variant="outlined" type="number" placeholder='100' label="Initial value" value={initialValue} onChange={(event) => setInitialValue(event.target.value)} />
+                </Grid>
+                <Grid size={6}>
+                  <TextField fullWidth variant="outlined" type="number" placeholder='1' label="Step value" value={stepValue} onChange={(event) => setStepValue(event.target.value)} />
+                </Grid>
+                <Grid size={12}>
+                  <TextField fullWidth variant="outlined" type="color" label="Color" value={color} onChange={(event) => setColor(event.target.value)} />
+                </Grid>
+              </Grid>
+              <DialogActions sx={{ paddingX: 0, paddingTop: 2, justifyContent: 'space-between' }}>
+                <Button loading={loading} disabled={loading} color='error' variant="contained" onClick={handleClose}>Cancel</Button>
+                <Button loading={loading} disabled={loading} size='medium' color='success' variant="contained" onClick={addTrackerToList}>
+                  Add New Tracker
+                </Button>
+              </DialogActions>
+            </DialogContent>
+          </Dialog>
+        </div>
+      </Container>
+    </>
   );
 }
