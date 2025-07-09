@@ -1,5 +1,19 @@
 'use client'
-import {Button, Grid, IconButton, TextField, Paper, Slider, Typography} from '@mui/material';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Grid,
+  IconButton,
+  TextField,
+  Paper,
+  Slider,
+  Typography,
+}
+from '@mui/material';
 import { useState } from 'react';
 import {Close, RemoveCircle, AddCircle } from '@mui/icons-material';
 
@@ -7,7 +21,16 @@ import {Close, RemoveCircle, AddCircle } from '@mui/icons-material';
 export default function Tracker({trackerProps, changeValue, remove}) {
   const [value, setValue] = useState(trackerProps.value)
   const [newValue, setNewValue] = useState(trackerProps.stepValue)
-  
+  const [open, setOpen] = useState(false);
+
+  const handleOpenDelete = () => {
+    setOpen(true);
+  };
+
+  const handleCloseDelete = () => {
+    setOpen(false);
+  };
+
   function valuetext(value) {
     return `${value} ${trackerProps.measureUnit}`;
   }
@@ -34,9 +57,9 @@ export default function Tracker({trackerProps, changeValue, remove}) {
   };
 
   return (
-    <Paper className='mb-5 relative' elevation={5}>
+    <Paper className='mb-3 relative' elevation={5}>
       <div className="absolute right-0 top-0">
-        <IconButton onClick={remove} color="error" aria-label="delete tracker">
+        <IconButton onClick={handleOpenDelete} color="error" aria-label="delete tracker">
           <Close />
         </IconButton>
       </div>
@@ -105,6 +128,27 @@ export default function Tracker({trackerProps, changeValue, remove}) {
           </Grid>
         </Grid>
       </Grid>
+       <Dialog
+        open={open}
+        onClose={handleCloseDelete}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          Delete {`"${trackerProps.title}"`}?
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are you sure you want to remove this tracker?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDelete}>Cancel</Button>
+          <Button color='error' onClick={remove} autoFocus>
+            Yes, delete tracker
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Paper>
   );
 }

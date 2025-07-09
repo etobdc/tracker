@@ -45,7 +45,7 @@ export default function Home() {
   const [color, setColor] = useState(exempleTracker.color)
   const [open, setOpen] = useState(false);
   const [exempleIsOn, setExempleIsOn] = useState(true);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -125,11 +125,12 @@ export default function Home() {
     if (oldList) {
       setTrackerList(JSON.parse(oldList) )
     }
+    setLoading(false)
   }, [])
 
   return (
     <>
-      <Container maxWidth="sm" className='mt-12 mb-10 relative'>
+      <Container maxWidth="sm" className='mt-12 mb-10 relative w-full h-full max-h-[90vh] overflow-auto'>
         <Typography
         align='center'
         component="h1"
@@ -138,10 +139,9 @@ export default function Home() {
         >
           Trackers by @etobdc
         </Typography>
-        <div>
-
+        <div className=''>
           {loading ? (
-            <Grid container spacing={1} className="mt-5">
+            <Grid container spacing={1} className="mt-18">
               {[1, 2, 3, 4, 5].map((item) => (
                 <Skeleton key={item} className="mb-1" variant="rectangular" width={'100%'} height={118} />
               ))}
@@ -161,7 +161,7 @@ export default function Home() {
             </Grid>
           )}
           <div className='fixed bottom-2 right-2'>
-            <Fab onClick={handleClickOpen} color="success" aria-label="add" >
+            <Fab size='medium' onClick={handleClickOpen} color="success" aria-label="add" >
               <AddIcon />
             </Fab>
           </div>
