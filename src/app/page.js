@@ -1,6 +1,7 @@
 'use client'
 
 import {
+  Alert,
   Button,
   Container,
   Dialog,
@@ -12,6 +13,7 @@ import {
   Grid,
   Skeleton,
   Slide,
+  Snackbar,
   Switch,
   TextField,
   Typography,
@@ -46,6 +48,11 @@ export default function Home() {
   const [open, setOpen] = useState(false);
   const [exempleIsOn, setExempleIsOn] = useState(true);
   const [loading, setLoading] = useState(true);
+  const [openSnack, setOpenSnack] = useState(false);
+  const [snackData, setSnackData] = useState({
+    message: 'Tracker added',
+    severity: 'success',
+  });
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -53,6 +60,22 @@ export default function Home() {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const setSnackBar = (message, severity) => {
+    setSnackData({
+      message,
+      severity
+    })
+    setOpenSnack(true);
+  };
+
+  const handleCloseSnack = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSnack(false);
   };
 
   const onChangeExemple = (event) => {
@@ -94,6 +117,7 @@ export default function Home() {
       saveOffline(attList)
       handleClose()
       setLoading(false)
+      setSnackBar('Tracker added', 'success')
     }, 500);
   }
 
@@ -101,6 +125,7 @@ export default function Home() {
     const attList = trackerList.filter((prevItem) => prevItem.id !== id)
     setTrackerList(attList);
     saveOffline(attList)
+    setSnackBar('Tracker deleted', 'success')
   }
 
   const changeValue = (id, newValue) => {
@@ -124,13 +149,14 @@ export default function Home() {
     const oldList = window.localStorage.getItem('trackerList')
     if (oldList) {
       setTrackerList(JSON.parse(oldList) )
+      setSnackBar('Trackers loaded', 'info')
     }
     setLoading(false)
   }, [])
 
   return (
     <>
-      <Container maxWidth="sm" className='mt-12 mb-10 relative w-full h-full max-h-[90vh] overflow-auto'>
+      <Container maxWidth="sm" className='mt-12 mb-10 relative w-full h-full max-h-[88vh] overflow-auto'>
         <Typography
         align='center'
         component="h1"
@@ -140,8 +166,13 @@ export default function Home() {
           Trackers by @etobdc
         </Typography>
         <div className=''>
+          {!loading && trackerList.length === 0 && (
+            <Alert elevation={3} variant='filled' severity="info" className="mt-[35vh]" >
+              Add new trackers pressing the the {`"+"`} button bellow
+            </Alert>
+          )}
           {loading ? (
-            <Grid container spacing={1} className="mt-18">
+            <Grid container spacing={1} className="mt-5">
               {[1, 2, 3, 4, 5].map((item) => (
                 <Skeleton key={item} className="mb-1" variant="rectangular" width={'100%'} height={118} />
               ))}
@@ -160,11 +191,6 @@ export default function Home() {
               </Grid>
             </Grid>
           )}
-          <div className='fixed bottom-2 right-2'>
-            <Fab size='medium' onClick={handleClickOpen} color="success" aria-label="add" >
-              <AddIcon />
-            </Fab>
-          </div>
           <Dialog
             open={open}
             onClose={handleClose}
@@ -210,12 +236,42 @@ export default function Home() {
               <DialogActions sx={{ paddingX: 0, paddingTop: 2, justifyContent: 'space-between' }}>
                 <Button loading={loading} disabled={loading} color='error' variant="contained" onClick={handleClose}>Cancel</Button>
                 <Button loading={loading} disabled={loading} size='medium' color='success' variant="contained" onClick={addTrackerToList}>
-                  Add New Tracker
+                  Save
                 </Button>
               </DialogActions>
             </DialogContent>
           </Dialog>
         </div>
+        <Snackbar
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center'  }}
+          open={openSnack}
+          autoHideDuration={5000}
+          onClose={handleCloseSnack}
+          variant="filled"
+        >
+          <Alert
+            onClose={handleCloseSnack}
+            severity={snackData.severity}
+            variant="filled"
+            sx={{ width: '70%' }}
+            className='text-center'
+          >
+            {snackData.message}
+          </Alert>
+        </Snackbar>
+        <div className='fixed bottom-2 right-2 z-20'>
+          <Fab size='medium' onClick={handleClickOpen} color="success" aria-label="add" >
+            <AddIcon />
+          </Fab>
+        </div>
+        <Typography 
+          align='center'
+          className='z-10 py-2 bg-white fixed bottom-0 right-0 left-0 shadow-[0_0_10px_0_rgba(0,0,0,0.25)]'
+          component={'span'}
+          variant='caption'
+        >
+            v1.0
+        </Typography>
       </Container>
     </>
   );
