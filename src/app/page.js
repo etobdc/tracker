@@ -94,7 +94,7 @@ export default function Home() {
       saveOffline(attList)
       handleClose()
       setLoading(false)
-    }, 800);
+    }, 500);
   }
 
   const removeTracker = (id) => {
