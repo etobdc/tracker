@@ -1,3 +1,11 @@
+# Trackers
+
+Create trackers for everything you want. [Online Demo](https://etobdc.github.io/tracker/)
+
+It uses `LocalStorage` to save the trackers on your device's browser. 
+
+It is designed mainly for mobile access, but works fine on pc
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
